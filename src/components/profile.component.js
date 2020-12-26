@@ -17,17 +17,17 @@ export default class Profile extends Component {
       <div className="container">
         <header className="jumbotron">
           <h3>
-            <strong>{currentUser.name}</strong> Profile
+            <strong>{currentUser.user.name}</strong> Profile
           </h3>
         </header>
         <p>
-          <strong>Token:</strong>{" "}
+          <strong>Token: {currentUser.token}</strong>{" "}
         </p>
         <p>
-          <strong>Id:</strong> {currentUser._id}
+          <strong>Id: {currentUser.user._id}</strong> {currentUser._id}
         </p>
         <p>
-          <strong>Email:</strong> {currentUser.email}
+          <strong>Email: {currentUser.user.email}</strong> {currentUser.email}
         </p>
       </div>
     );

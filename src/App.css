@@ -1,21 +1,12 @@
-.App {
+/*  .App {
   text-align: center;
-}
+} */
 
 .App-logo {
   height: 20vmin;
   pointer-events: none;
 }
-
-.bodyContainer {
-  display: flex;
-  min-height: 100vh;
-
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
-}
+/*  
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -26,7 +17,16 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
+*/
+.login-container {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
 .App-link {
   color: #61dafb;
 }

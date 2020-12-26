@@ -7,6 +7,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
+
 export default class Home extends Component {
   render() {
     return <Paper elevation={2} style={{ backgroundColor: "#80CBC4" }}></Paper>;

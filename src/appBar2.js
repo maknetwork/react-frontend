@@ -23,6 +23,10 @@ import Menu from "@material-ui/core/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Avatar from "@material-ui/core/Avatar";
 import { deepOrange, deepPurple } from "@material-ui/core/colors";
+import AuthService from "./services/auth.service";
+import Link from "@material-ui/core/Link";
+import { useHistory } from "react-router-dom";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -95,12 +99,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MiniDrawer({ greeting, handleThemeChange, themer }) {
+export default function MiniDrawer({
+  greeting,
+  handleThemeChange,
+  themer,
+  currentUser,
+}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const openMenu = Boolean(anchorEl);
+  const logOut = () => {
+    AuthService.logout();
+    history.push("/");
+  };
+  const history = useHistory();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -147,38 +161,50 @@ export default function MiniDrawer({ greeting, handleThemeChange, themer }) {
             onChange={handleThemeChange}
             inputProps={{ "aria-label": "secondary checkbox" }}
           />
-
-          <div>
-            <IconButton
-              aria-label="account of current user"
-              edge="end"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="inherit"
-            >
-              <Avatar className={classes.small}>N</Avatar>
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
+          {currentUser ? (
+            <div>
+              <IconButton
+                aria-label="account of current user"
+                edge="end"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <Avatar className={classes.small}>N</Avatar>
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={openMenu}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={logOut}>Log Out</MenuItem>
+              </Menu>
+            </div>
+          ) : (
+            <Link
+              component="button"
+              variant="body2"
+              color="secondary"
+              onClick={() => {
+                history.push("/loginv2");
               }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={openMenu}
-              onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-              <MenuItem onClick={handleClose}>Log Out</MenuItem>
-            </Menu>
-          </div>
+              Login{" "}
+            </Link>
+          )}
         </Toolbar>
       </AppBar>
 

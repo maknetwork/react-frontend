@@ -5,7 +5,11 @@ import MiniDrawer from "./appBar2";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { Switch, Route, Link } from "react-router-dom";
 import AuthService from "./services/auth.service";
+import PrivateRoute from "./services/PrivateRoute";
+import { lightBlue, red } from "@material-ui/core/colors";
+
 import CircularProgress from "@material-ui/core/CircularProgress";
+const Dashboard = React.lazy(() => import("./components/dashboard.component"));
 
 const Login = React.lazy(() => import("./components/login.component"));
 const Register = React.lazy(() => import("./components/register.component"));
@@ -41,6 +45,7 @@ class App extends Component {
       },
       dark: {
         palette: {
+          /*   palette: {
           type: "dark",
           primary: {
             main: "#000000",
@@ -53,6 +58,27 @@ class App extends Component {
             default: "#52057b",
             paper: "#892cdc",
           },
+        }, */
+          type: "dark",
+          primary: {
+            light: "#CECADF",
+            main: "#5A4E93",
+            dark: "#2E2564",
+          },
+          secondary: {
+            light: "#B3EBD6",
+            main: "#00BC77",
+            dark: "#009747",
+            contrastText: "#FFFFFF",
+          },
+          background: {
+            paper: "#22184B",
+            default: "#180F3D",
+          },
+          error: red,
+        },
+        status: {
+          danger: "orange",
         },
       },
     };
@@ -113,6 +139,7 @@ class App extends Component {
           <MiniDrawer
             themer={this.state.theme}
             handleThemeChange={this.handleThemeChange}
+            currentUser={this.state.currentUser}
             greeting={
               <div class="bodyContainer">
                 {" "}
@@ -123,6 +150,8 @@ class App extends Component {
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/profile" component={Profile} />
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/dashboard" component={Dashboard} />
 
                     <Route exact path="/loginv2" component={Loginv2} />
                   </Switch>

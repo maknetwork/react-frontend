@@ -7,11 +7,11 @@ class AuthService {
     return axios
       .post("http://localhost:9000/auth/signin/", {
         email,
-        password
+        password,
       })
-      .then(response => {
+      .then((response) => {
         if (response.data.token) {
-          localStorage.setItem("user", JSON.stringify(response.data.user));
+          localStorage.setItem("user", JSON.stringify(response.data));
         }
 
         return response.data;
@@ -26,12 +26,16 @@ class AuthService {
     return axios.post("http://localhost:9000/api/users/", {
       name,
       email,
-      password
+      password,
     });
   }
 
   getCurrentUser() {
-    return JSON.parse(localStorage.getItem('user'));;
+    if (typeof window == "undefined") return false;
+
+    if (localStorage.getItem("user"))
+      return JSON.parse(localStorage.getItem("user"));
+    else return false;
   }
 }
 

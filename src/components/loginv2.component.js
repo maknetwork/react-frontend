@@ -42,116 +42,119 @@ export default class Loginv2 extends Component {
 
   render() {
     return (
-      <Paper elevation={2}>
-        {this.state.loading ? <LinearProgress /> : <p></p>}
-        <React.Fragment></React.Fragment>
-        <Container maxWidth="lg">
-          <Box>
-            <h1 style={{ textAlign: "center" }}>Login to your account</h1>
-          </Box>{" "}
-          <Formik
-            initialValues={{ email: "", password: "" }}
-            validate={(values) => {
-              const errors = {};
-              if (!values.email) {
-                errors.email = "Required";
-              } else if (
-                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-              ) {
-                errors.email = "Invalid email address";
-              }
-              return errors;
-            }}
-            onSubmit={(values, { setSubmitting }) => {
-              this.setState({ loading: true });
-              AuthService.login(values.email, values.password).then(
-                () => {
-                  alert("logged in");
-                },
-                (error) => {
-                  const resMessage =
-                    (error.response &&
-                      error.response.data &&
-                      error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-                  this.setState({ errormsg: resMessage });
-                  this.setState({ open: true });
-                  this.setState({ loading: false });
-
-                  setSubmitting(false);
+      <div className="login-container">
+        <Paper elevation={2}>
+          {this.state.loading ? <LinearProgress /> : <p></p>}
+          <React.Fragment></React.Fragment>
+          <Container maxWidth="lg">
+            <Box>
+              <h1 style={{ textAlign: "center" }}>Login to your account</h1>
+            </Box>{" "}
+            <Formik
+              initialValues={{ email: "", password: "" }}
+              validate={(values) => {
+                const errors = {};
+                if (!values.email) {
+                  errors.email = "Required";
+                } else if (
+                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                ) {
+                  errors.email = "Invalid email address";
                 }
-              );
-            }}
-          >
-            {({ isSubmitting }) => (
-              <Form>
-                <Box m={2}>
-                  <Field
-                    component={TextField}
-                    type="email"
-                    name="email"
-                    variant="outlined"
-                    label="Email"
-                    style={{ width: "100%" }}
-                  />
-                </Box>
-                <Box m={2}>
-                  <Field
-                    component={TextField}
-                    type="password"
-                    name="password"
-                    label="Password"
-                    variant="outlined"
-                    style={{ width: "100%" }}
-                  />
-                  <ErrorMessage name="password" component="div" />
-                </Box>
-                <Box>
-                  <FormControlLabel
-                    control={
-                      <Field
-                        component={Switch}
-                        type="checkbox"
-                        name="rememberMe"
-                      />
-                    }
-                    label="Remember Me"
-                  />
-                </Box>
+                return errors;
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                this.setState({ loading: true });
+                AuthService.login(values.email, values.password).then(
+                  () => {
+                    this.props.history.push("/profile");
+                    window.location.reload();
+                  },
+                  (error) => {
+                    const resMessage =
+                      (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                      error.message ||
+                      error.toString();
+                    this.setState({ errormsg: resMessage });
+                    this.setState({ open: true });
+                    this.setState({ loading: false });
 
-                <Box m={2}>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    style={{ width: "100%" }}
-                    type="submit"
-                    disabled={isSubmitting}
-                  >
-                    Log In
-                  </Button>
-                </Box>
-              </Form>
-            )}
-          </Formik>
-          <Box m={2}>
-            <Button color="primary">
-              <LockIcon color="primary" /> Forgot password?
-            </Button>
-          </Box>
-        </Container>
-        <Snackbar
-          open={this.state.open}
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          autoHideDuration={6000}
-          TransitionComponent={GrowTransition}
-          onClose={this.handleClose}
-        >
-          <Alert onClose={this.handleClose} severity="error">
-            {this.state.errormsg}
-          </Alert>
-        </Snackbar>
-      </Paper>
+                    setSubmitting(false);
+                  }
+                );
+              }}
+            >
+              {({ isSubmitting }) => (
+                <Form>
+                  <Box m={2}>
+                    <Field
+                      component={TextField}
+                      type="email"
+                      name="email"
+                      variant="outlined"
+                      label="Email"
+                      style={{ width: "100%" }}
+                    />
+                  </Box>
+                  <Box m={2}>
+                    <Field
+                      component={TextField}
+                      type="password"
+                      name="password"
+                      label="Password"
+                      variant="outlined"
+                      style={{ width: "100%" }}
+                    />
+                    <ErrorMessage name="password" component="div" />
+                  </Box>
+                  <Box>
+                    <FormControlLabel
+                      control={
+                        <Field
+                          component={Switch}
+                          type="checkbox"
+                          name="rememberMe"
+                        />
+                      }
+                      label="Remember Me"
+                    />
+                  </Box>
+
+                  <Box m={2}>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      style={{ width: "100%" }}
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      Log In
+                    </Button>
+                  </Box>
+                </Form>
+              )}
+            </Formik>
+            <Box m={2}>
+              <Button color="primary">
+                <LockIcon color="primary" /> Forgot password?
+              </Button>
+            </Box>
+          </Container>
+          <Snackbar
+            open={this.state.open}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            autoHideDuration={6000}
+            TransitionComponent={GrowTransition}
+            onClose={this.handleClose}
+          >
+            <Alert onClose={this.handleClose} severity="error">
+              {this.state.errormsg}
+            </Alert>
+          </Snackbar>
+        </Paper>
+      </div>
     );
   }
 }
