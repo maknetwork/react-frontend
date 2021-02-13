@@ -26,7 +26,9 @@ import { deepOrange, deepPurple } from "@material-ui/core/colors";
 import AuthService from "./services/auth.service";
 import Link from "@material-ui/core/Link";
 import { useHistory } from "react-router-dom";
-
+import HomeIcon from "@material-ui/icons/Home";
+import AssessmentIcon from "@material-ui/icons/Assessment";
+import GroupIcon from "@material-ui/icons/Group";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -113,6 +115,7 @@ export default function MiniDrawer({
   const logOut = () => {
     AuthService.logout();
     history.push("/");
+    window.location.reload();
   };
   const history = useHistory();
 
@@ -232,26 +235,44 @@ export default function MiniDrawer({
         </div>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem
+            button
+            key="Home"
+            onClick={() => {
+              history.push("/");
+            }}
+          >
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+          <ListItem
+            button
+            key="Reports"
+            onClick={() => {
+              history.push("/posts");
+            }}
+          >
+            <ListItemIcon>
+              <AssessmentIcon />
+            </ListItemIcon>
+            <ListItemText primary="Reports" />
+          </ListItem>
+          <ListItem
+            button
+            key="Users"
+            onClick={() => {
+              history.push("/users");
+            }}
+          >
+            <ListItemIcon>
+              <GroupIcon />
+            </ListItemIcon>
+            <ListItemText primary="Users" />
+          </ListItem>
         </List>
         <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />

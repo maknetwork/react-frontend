@@ -10,12 +10,16 @@ import { lightBlue, red } from "@material-ui/core/colors";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 const Dashboard = React.lazy(() => import("./components/dashboard.component"));
-
+const NewUser = React.lazy(() => import("./components/newUser.component"));
+const Users = React.lazy(() => import("./components/users.component"));
+require("dotenv").config();
 const Login = React.lazy(() => import("./components/login.component"));
 const Register = React.lazy(() => import("./components/register.component"));
 const Profile = React.lazy(() => import("./components/profile.component"));
 const Loginv2 = React.lazy(() => import("./components/loginv2.component"));
 const Home = React.lazy(() => import("./components/home.component"));
+const Posts = React.lazy(() => import("./components/posts.component"));
+const Complaint = React.lazy(() => import("./components/complaint.component"));
 
 //Get the default connection
 
@@ -115,12 +119,6 @@ class App extends Component {
     if (localTheme) {
       this.setState({ theme: localTheme });
     }
-    if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      this.setState({ theme: false });
-    }
   }
 
   componentWillMount() {
@@ -143,15 +141,46 @@ class App extends Component {
             greeting={
               <div class="bodyContainer">
                 {" "}
-                <Suspense fallback={<CircularProgress />}>
+                <Suspense
+                  fallback={
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        padding: 100,
+                        height: 100,
+                        margin: 0,
+                        alignItems: "center",
+                      }}
+                    >
+                      <CircularProgress />
+                    </div>
+                  }
+                >
                   <Switch>
-                    <Route exact path={["/", "/home"]} component={Home} />
+                    <PrivateRoute
+                      exact
+                      path={["/", "/home"]}
+                      component={Home}
+                    />
 
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/register" component={Register} />
-                    <Route exact path="/profile" component={Profile} />
+                    <PrivateRoute exact path="/profile" component={Profile} />
                     <Route exact path="/login" component={Login} />
-                    <Route exact path="/dashboard" component={Dashboard} />
+                    <PrivateRoute
+                      exact
+                      path="/dashboard"
+                      component={Dashboard}
+                    />
+                    <Route exact path="/newmember" component={NewUser} />
+                    <PrivateRoute exact path="/users" component={Users} />
+                    <PrivateRoute exact path="/posts" component={Posts} />
+                    <PrivateRoute
+                      exact
+                      path="/Complaint/:userId/:complaintId"
+                      component={Complaint}
+                    />
 
                     <Route exact path="/loginv2" component={Loginv2} />
                   </Switch>

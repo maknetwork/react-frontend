@@ -1,11 +1,9 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:9000/auth/signin/";
-
 class AuthService {
   login(email, password) {
     return axios
-      .post("http://localhost:9000/auth/signin/", {
+      .post(process.env.REACT_APP_EXPRESS_URL + "/auth/signin/", {
         email,
         password,
       })
@@ -23,7 +21,7 @@ class AuthService {
   }
 
   register(name, email, password) {
-    return axios.post("http://localhost:9000/api/users/", {
+    return axios.post(process.env.REACT_APP_EXPRESS_URL + "/api/users/", {
       name,
       email,
       password,

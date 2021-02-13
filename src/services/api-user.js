@@ -3,7 +3,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 const read = async () => {
   try {
     let response = await fetch(
-      "http://localhost:9000/api/users/" + user.user._id,
+      process.env.REACT_APP_EXPRESS_URL + "/api/users/" + user.user._id,
       {
         method: "GET",
         headers: {

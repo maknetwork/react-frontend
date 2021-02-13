@@ -15,22 +15,21 @@ import Grid from "@material-ui/core/Grid";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import AuthService from "../services/auth.service";
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      currentUser: undefined,
+      currentUser: AuthService.getCurrentUser(),
     };
   }
 
-  componentDidMount() {
-    read().then((movies) => {
-      this.setState({ currentUser: JSON.stringify(movies) });
-    });
-  }
   render() {
+    const { currentUser } = this.state;
+
     return (
       <div style={{ padding: 20 }}>
         <Grid container spacing={2}>
@@ -53,14 +52,18 @@ export default class Home extends Component {
           </Grid>
           <Grid item xs={12} sm={4}>
             <Card>
-              <CardContent>
-                Word of the Day adjective well meaning and kindly.
-                <br />
-                {'"a benevolent smile"'}
-              </CardContent>
-              <CardActions>
-                <Button size="small">Learn More</Button>
-              </CardActions>
+              <CardHeader
+                avatar={
+                  <Avatar aria-label="recipe">
+                    {currentUser.user.name.charAt(0).toUpperCase()}
+                  </Avatar>
+                }
+                title="Welcome"
+                subheader={
+                  currentUser.user.name.charAt(0).toUpperCase() +
+                  currentUser.user.name.slice(1)
+                }
+              />
             </Card>
           </Grid>
           <Grid item xs={12} sm={4}>

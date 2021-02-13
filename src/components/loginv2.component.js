@@ -42,13 +42,19 @@ export default class Loginv2 extends Component {
 
   render() {
     return (
-      <div className="login-container">
+      <div
+        className="login-container"
+        style={{
+          backgroundImage: `url("https://images.unsplash.com/photo-1613063931504-eb9f59ce546d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")`,
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <Paper elevation={2}>
           {this.state.loading ? <LinearProgress /> : <p></p>}
           <React.Fragment></React.Fragment>
           <Container maxWidth="lg">
             <Box>
-              <h1 style={{ textAlign: "center" }}>Login to your account</h1>
+              <h1 style={{ textAlign: "center" }}>Login to your account </h1>
             </Box>{" "}
             <Formik
               initialValues={{ email: "", password: "" }}
