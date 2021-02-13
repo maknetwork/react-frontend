@@ -1,0 +1,29 @@
+version: "3"
+services:
+  api:
+    container_name: express-mongo
+    restart: always
+    build:
+      context: ./api
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./api:/app
+    links:
+      - mongo
+  client:
+    container_name: react-express
+    restart: always
+    build:
+      context: ./client
+    ports:
+      - "80:3000"
+    volumes:
+      - ./client:/client
+    links:
+      - api
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"
